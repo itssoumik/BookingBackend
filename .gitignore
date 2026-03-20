@@ -1,0 +1,35 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PostgreSQL / Local Database files
+*.db
+*.sqlite3
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Caches and Logs
+.pytest_cache/
+logs/
+*.log
+
+# Type checking
+.mypy_cache/
+
+# OS generated files
+.DS_Store
+Thumbs.db
