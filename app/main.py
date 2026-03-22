@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import hotels
+# Temporary input coz SQLAlchemy is idiot
+from app.models.booking import Booking
+
+from app.api import hotels, auth
 
 app = FastAPI(
     title="Guest House API",
@@ -18,6 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(hotels.router, prefix="/api/hotels", tags=["Hotels"])
 
 @app.get("/")

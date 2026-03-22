@@ -1,4 +1,5 @@
 import enum
+from typing import TYPE_CHECKING
 import uuid
 from datetime import date, datetime
 
@@ -7,8 +8,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from app.core.database import Base
-from app.models.hotel import RoomType, Room
-from app.models.user import User
+if TYPE_CHECKING:
+    from app.models.user import User
+    from app.models.hotel import RoomType, Room
 
 class BookingStatus(str, enum.Enum):
     WAITING = "WAITING"
