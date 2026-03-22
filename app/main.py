@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Import our new router
-from app.api.v1 import hotels
+from app.api import hotels
 
 app = FastAPI(
     title="Guest House API",
@@ -19,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(hotels.router, prefix="/api/v1/hotels", tags=["Hotels"])
+app.include_router(hotels.router, prefix="/api/hotels", tags=["Hotels"])
 
 @app.get("/")
 def health_check():

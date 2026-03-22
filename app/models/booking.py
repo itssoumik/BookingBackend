@@ -7,6 +7,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from app.core.database import Base
+from app.models.hotel import RoomType, Room
+from app.models.user import User
 
 class BookingStatus(str, enum.Enum):
     WAITING = "WAITING"
