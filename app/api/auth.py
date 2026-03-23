@@ -5,6 +5,9 @@ from app.core.database import get_db
 from app.core.security import get_password_hash
 from app.models.user import User
 from app.schemas.user_schema import UserCreate, UserResponse
+from app.core.security import verify_password, create_access_token
+from app.schemas.user_schema import UserLogin
+from app.schemas.token_schema import Token
 
 router = APIRouter()
 
@@ -34,3 +37,32 @@ def register_user(user_in: UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     return new_user
+
+
+@router.post("/login", response_model=Token, status_code=status.HTTP_200_OK)
+def login_user(user_credentials: UserLogin, db: Session = Depends(get_db)):
+    """
+    Authenticate a user and return a JWT access token.
+    """
+    user = db.query(User).filter(User.email == user_credentials.email).first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if not verify_password(user_credentials.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    access_token = create_access_token(data={"user_id": str(user.id)})
+
+    return {
+        "access_token": access_token, 
+        "token_type": "bearer"
+    }
